@@ -1,0 +1,218 @@
+<html>
+<head>
+    <title>个人主页</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <style>
+        .title_1{
+            font-size: 300%;
+            font-family:Comic Sans MS, cursive, sans-serif;
+            color: #FFD026;
+            text-shadow: 5px 5px 2px #A6A6A6;
+            height: 10%;
+            margin-left: 10%;
+        }
+        .head{
+            width: 100%;
+            overflow: auto;
+        }
+        .main{
+            background-color:gray;
+            border: 6px solid white;
+            border-radius: 4px;
+            background-color: rgba(255,255,255,0.4);
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0px;
+            height: 800px;
+            overflow: scroll;
+        }
+        .title_2{
+            margin: 0;
+            overflow: hidden;
+            background-color: #FFD026;
+            top: 0;
+            width: 100%;
+            display: block;
+            color: black;
+            text-align: center;
+            padding: 0px 0px;
+            text-decoration: none;
+            font-size: 200%;
+        }
+        #photo{
+            margin: 30px;
+            padding: 0px;
+            width: 200px;
+            height: 200px;
+            float: left;
+        }
+        .data{
+            height: auto;
+        }
+        .data_1{
+            margin: 60px 30px 30px 100px;
+            padding: 0;
+        }
+        .frame{
+            margin: 30px;
+            width: 1200px;
+            height: 300px;
+            overflow: scroll;
+            border: #FFD026 solid;
+            background-color: #A6A6A6;
+        }
+        .statue{
+            float:left;
+            padding: 10px;
+            border-radius: 4px;
+            border: #FFD026 solid;
+            width: 10%;
+            text-align: center;
+            color: white;
+        }
+        table,td,th
+        {
+            border:2px solid gray;
+        }
+        table {
+            width:100%;
+        }
+        th {
+            height:50px;
+            background-color: #FFD026;
+            color: black;
+        }
+        td{
+            text-align: left;
+        }
+    </style>
+</head>
+<body background="img/personal_page.png">
+<div class="head">
+    <h1 class="title_1">wanted</h1>
+    <p style="float: left;font-size: 100%;margin-left: 10%">
+        <a href="#" onclick="jump()" style="color: white;margin-top: 0">返回主页</a>
+    </p>
+    <p style="float: right;font-size: 100%;margin-right: 10%">
+        <a href="#" onclick="jump_mod()" style="color: white;margin-top: 0">修改资料</a>
+    </p>
+</div>
+<div class="main">
+    <div style="position: -webkit-sticky;position: sticky;top: 0px">
+        <p class="title_2">个人信息</p>
+    </div>
+    <div class="data">
+        <img id="photo" src="img/w_head.jpg">
+        <h1 style="margin: 30px;padding-top: 30px" id="username">这是名字</h1><h2 style="margin:30px" id="school">这是学校+学院</h2>
+        <p class="statue" id="statue">请选择你的状态</p>
+    </div>
+    <br>
+    <br>
+    <div class="data_1">
+        <h3>个人信息</h3>
+        <h4 id="brief">这是简介</h4>
+        <br>
+        <br>
+        <hr style="border:#FFD026 2px solid;align-self: center">
+    </div>
+    <p style="font-size: 20px;margin-left: 30px">发布的wanted</p>
+    <div class="frame">
+        <table id="Swanted">
+        </table>
+    </div>
+<!--    <p style="font-size: 20px;margin-left: 30px">参加的wanted</p>-->
+<!--    <div class="frame">-->
+<!--        <table id="Jwanted">-->
+<!--        </table>-->
+<!--    </div>-->
+</div>
+<script src="js/axios-0.18.0.js"></script>
+<script>
+    var loc=location.href;
+    var n1=loc.length;//地址的总长度
+    var n2=loc.indexOf("?");//取得?号的位置
+    var username=decodeURI(loc.substr(n2+1, n1-n2));
+    axios.get("http://localhost/users/detail?username=" + username)
+        .then(res => {
+            if(res.data.flag === true) {
+                document.getElementById("username").innerHTML = res.data.data.username;
+                document.getElementById("school").innerHTML = res.data.data.school + res.data.data.institute;
+                document.getElementById("statue").innerHTML = res.data.data.statue;
+                let table_ = "<table>\n" +
+                    "            <tr>\n" +
+                    "                <th width=\"10%\">id</th>\n" +
+                    "                <th>邮箱</th>\n" +
+                    "                <th>手机号</th>\n" +
+                    //"                <th>QQ</th>\n" +
+                    "                <th>简介</th>" +
+                    "            </tr>"
+                // 加上从res中获取的数据
+                table_ += "<tr>\n" +
+                    "                <td>" + res.data.data.id + "</td>\n" +
+                    "                <td>" + res.data.data.email + "</td>\n" +
+                    "                <td>" + res.data.data.phone + "</td>\n" +
+                    // "                <td>" + res.data.data.qq_number + "</td>\n" +
+                    "                <td>" + res.data.data.brief + "</td>\n" +
+                    "            </tr>"
+                table_ += "</table>"
+                document.getElementById("brief").innerHTML = table_;
+            } else{
+                alert(res.data.msg);
+            }
+        })
+    axios.get("http://localhost/inform/leader/" + username)
+        .then(res => {
+            let table_1 = "<tr>\n" +
+                "        <th width=\"10%\">wanted_id</th>\n" +
+                "        <th>wanted_head</th>\n" +
+                "        <th>发起人</th>\n" +
+                "        <th>类型</th>\n" +
+                "        <th>参与人数</th>\n" +
+                "        <th>简介</th>\n" +
+                "    </tr>"
+            for (let i = 0; i < res.data.length; i++) {
+                let _a = "<a href=\wanted_detail.html?id=" + res.data[i].id + "\ target=_blank>" + res.data[i].wantedHead + "</a>"
+                table_1 += "<tr>\n" +
+                    "        <td>" + res.data[i].id + "</td>\n" +
+                    "        <td>" + _a + "</td>\n" +
+                    "        <td>" + res.data[i].leader + "</td>\n" +
+                    "        <td>" + res.data[i].type + "</td>\n" +
+                    "        <td>" + res.data[i].personCur + "/" + res.data[i].personAll + "</td>\n" +
+                    "        <td>" + res.data[i].brief + "</td>\n" +
+                    "    </tr>"
+            }
+            document.getElementById("Swanted").innerHTML = table_1;
+        })
+    axios.get("http://localhost/inform/member/" + username)
+        .then(res => {
+            let table_2 = "<tr>\n" +
+                "        <th width=\"10%\">wanted_id</th>\n" +
+                "        <th>wanted_head</th>\n" +
+                "        <th>发起人</th>\n" +
+                "        <th>类型</th>\n" +
+                "        <th>参与人数</th>\n" +
+                "        <th>简介</th>\n" +
+                "    </tr>"
+            for (let i = 0; i < res.data.length; i++) {
+                let _a = "<a href=\wanted_detail.html?id=" + res.data[i].id + "\ target=_blank>" + res.data[i].wantedHead + "</a>"
+                table_2 += "<tr>\n" +
+                    "        <td>" + res.data[i].id + "</td>\n" +
+                    "        <td>" + _a + "</td>\n" +
+                    "        <td>" + res.data[i].leader + "</td>\n" +
+                    "        <td>" + res.data[i].type + "</td>\n" +
+                    "        <td>" + res.data[i].personCur + "/" + res.data[i].personAll + "</td>\n" +
+                    "        <td>" + res.data[i].brief + "</td>\n" +
+                    "    </tr>"
+            }
+            document.getElementById("Jwanted").innerHTML = table_2;
+        })
+    function jump(){
+        window.location.href = "http://localhost/main.html?"+username;
+    }
+    function jump_mod(){
+        window.location.href = "http://localhost/modified_data.html?"+username;
+    }
+</script>
+</body>
+</html>

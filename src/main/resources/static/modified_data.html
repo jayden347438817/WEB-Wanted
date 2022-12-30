@@ -1,0 +1,184 @@
+<html>
+<head>
+    <title>修改资料</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <style>
+        .title_1{
+            font-size: 300%;
+            font-family:Comic Sans MS, cursive, sans-serif;
+            color: #FFD026;
+            text-shadow: 5px 5px 2px #A6A6A6;
+            height: 10%;
+            margin-left: 5%;
+        }
+        .head{
+            width: 100%;
+            overflow: auto;
+        }
+        .main{
+            background-color:gray;
+            border: 6px solid white;
+            border-radius: 4px;
+            background-color: rgba(255,255,255,0.4);
+            width: 50%;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0px;
+            height: 800px;
+            overflow: scroll;
+        }
+        .title_2{
+            margin: 0;
+            overflow: hidden;
+            background-color: #FFD026;
+            top: 0;
+            width: 100%;
+            display: block;
+            color: black;
+            text-align: center;
+            padding: 0px 0px;
+            text-decoration: none;
+        }
+        #photo{
+            margin-top: 30px;
+            margin-bottom: 30px;
+            padding: 0px;
+            width: 200px;
+            height: 200px;
+        }
+        .data{
+            text-align: center;
+        }
+        .blank{
+            width: 50%;
+            margin: 10px;
+            padding: 5px;
+            font-size: 15px;
+        }
+        .button {
+            display: inline-block;
+            border-radius: 4px;
+            background-color: #FFD026;
+            border: none;
+            color: #FFFFFF;
+            text-align: center;
+            font-size: 20px;
+            padding: 12px;
+            width: 200px;
+            transition: all 0.5s;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .button span {
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+            transition: 0.5s;
+        }
+
+        .button span:after {
+            content: '》》';
+            position: absolute;
+            opacity: 0;
+            top: 0;
+            right: -20px;
+            transition: 0.5s;
+        }
+
+        .button:hover span {
+            padding-right: 55px;
+        }
+
+        .button:hover span:after {
+            opacity: 1;
+            right: 0;
+        }
+    </style>
+</head>
+<body background="img/personal_page.png">
+<div class="head">
+    <h1 class="title_1">wanted</h1>
+    <p style="float: right;font-size: 100%;margin-right: 25%">
+        <a href="#" onclick="jump_back()" style="color: white;margin-top: 0">放弃修改</a>
+    </p>
+</div>
+<div class="main">
+    <div class="title_2">
+        <p style="font-size: 200%;margin: 0">修改资料</p>
+    </div>
+    <div class="data">
+        <img id="photo" src="img/w_head.jpg"><br>
+        <button style="padding: 10px;font-size: 20px;margin-bottom: 20px">上传图片</button><br>
+
+            <table style="font-size: 10px;margin-top: 20px">
+                <lable for="username" style="font-size: 15px">姓名：</lable>
+                <input type="text" id="username" name="username" class="blank"><br>
+                <lable for="school" style="font-size: 15px">学校：</lable>
+                <input type="text" id="school" name="school" class="blank"><br>
+                <lable for="institute" style="font-size: 15px">学院：</lable>
+                <input type="text" id="institute" name="institute" class="blank"><br>
+                <lable for="qq_number" style="font-size: 15px">QQ：</lable>
+                <input type="text" id="qq_number" name="qq_number" class="blank"><br>
+                <lable for="phone"  style="font-size: 15px">电话：</lable>
+                <input type="text" id="phone" name="phone" class="blank"><br>
+            </table>
+
+        <select id="statue" style="margin:0;padding: 10px">
+            <option>请选择你的状态</option>
+            <option>学习中</option>
+            <option>考研中</option>
+            <option>写代码中</option>
+            <option>摆烂中</option>
+            <option>学习JavaEE中</option>
+        </select>
+    <div style="text-align: center;margin-top: 20px">
+
+            <table style="font-size: 15px">
+                <textarea id="brief" name="brief" cols="50" rows="10">请输入简介...</textarea><br>
+            </table>
+            <button class="button" id="btn" style="vertical-align:middle;margin-left: auto;margin-right: auto"><span>提交修改</span></button>
+
+    </div>
+</div>
+</div>
+<script src="js/axios-0.18.0.js"></script>
+<script>
+    var loc=location.href;
+    var n1=loc.length;//地址的总长度
+    var n2=loc.indexOf("?");//取得?号的位置
+    var username=decodeURI(loc.substr(n2+1, n1-n2));
+
+    document.getElementById("btn").onclick = function () {
+        let username = document.getElementById("username").value;
+        let school = document.getElementById("school").value;
+        let institute = document.getElementById("institute").value;
+        let qq_number = document.getElementById("qq_number").value;
+        let phone = document.getElementById("phone").value;
+        let statue = document.getElementById("statue").value;
+        let brief = document.getElementById("brief").value;
+        let user_data={
+            "username":username,
+            "school":school,
+            "institute":institute,
+            "qq_number":qq_number,
+            "phone":phone,
+            "statue":statue,
+            "brief":brief
+        }
+        axios.put("http://localhost/users/",user_data)
+            .then(res =>{
+                if (res.data === "success") {
+                    window.location.href = "http://localhost/personal_page.html?"+username;
+                } else {
+                    alert("错误");
+                }
+            });
+    }
+    function jump_back()
+    {
+        window.location.href = "http://localhost/personal_page.html?"+username;
+    }
+</script>
+</body>
+</html>

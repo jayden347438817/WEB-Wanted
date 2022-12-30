@@ -1,0 +1,185 @@
+<html>
+<head>
+    <title>创建wanted</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <style>
+        .title_1 {
+            font-size: 300%;
+            font-family: Comic Sans MS, cursive, sans-serif;
+            color: #FFD026;
+            text-shadow: 5px 5px 2px #A6A6A6;
+            height: 10%;
+            margin-left: 5%;
+        }
+
+        .head {
+            width: 100%;
+            overflow: auto;
+        }
+
+        .main {
+            background-color: gray;
+            border: 6px solid white;
+            border-radius: 4px;
+            background-color: rgba(255, 255, 255, 0.4);
+            width: 50%;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0px;
+            height: 800px;
+            overflow: scroll;
+        }
+
+        .title_2 {
+            margin: 0;
+            overflow: hidden;
+            background-color: #FFD026;
+            top: 0;
+            width: 100%;
+            display: block;
+            color: black;
+            text-align: center;
+            padding: 0px 0px;
+            text-decoration: none;
+        }
+
+        #photo {
+            margin-top: 30px;
+            margin-bottom: 30px;
+            padding: 0px;
+            width: 200px;
+            height: 200px;
+        }
+
+        .data {
+            text-align: center;
+        }
+
+        .blank {
+            width: 50%;
+            margin: 10px;
+            padding: 5px;
+            font-size: 15px;
+        }
+
+        .button {
+            display: inline-block;
+            border-radius: 4px;
+            background-color: #FFD026;
+            border: none;
+            color: #FFFFFF;
+            text-align: center;
+            font-size: 20px;
+            padding: 12px;
+            width: 200px;
+            transition: all 0.5s;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .button span {
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+            transition: 0.5s;
+        }
+
+        .button span:after {
+            content: '》》';
+            position: absolute;
+            opacity: 0;
+            top: 0;
+            right: -20px;
+            transition: 0.5s;
+        }
+
+        .button:hover span {
+            padding-right: 55px;
+        }
+
+        .button:hover span:after {
+            opacity: 1;
+            right: 0;
+        }
+    </style>
+</head>
+<body background="img/personal_page.png">
+<div class="head">
+    <h1 class="title_1">wanted</h1>
+    <p style="float: right;font-size: 100%;margin-right: 25%">
+        <a href="#" onclick="jump_back_()" style="color: white;margin-top: 0">放弃创建wanted</a>
+    </p>
+</div>
+<div class="main">
+    <div class="title_2">
+        <p style="font-size: 200%;margin: 0">创建wanted</p>
+    </div>
+    <div class="data">
+        <img id="photo" src="img/w_head.jpg"><br>
+        <button style="padding: 10px;font-size: 20px">上传项目图片</button><br>
+        <table style="font-size: 10px">
+            <lable for="wantedHead" style="font-size: 15px">wanted题目：</lable>
+            <input type="text" id="wantedHead" name="wantedHead" class="blank"><br>
+            <lable for="number" style="font-size: 15px">项目需求人数：</lable>
+            <input type="number" id="personAll" name="personAll" placeholder="1~8人" min="1" max="8" class="blank"
+                   style="width: 20%"><br>
+            <lable for="school" style="font-size: 15px">项目依托学校：</lable>
+            <input type="text" id="school" name="school" class="blank"><br>
+            <lable for="institute" style="font-size: 15px">项目所在学院：</lable>
+            <input type="text" id="institute" name="institute" class="blank"><br>
+        </table>
+        <select id="type" name="type" style="margin:0;padding: 10px">
+            <option>请选择项目类别</option>
+            <option label="大创" value="大创"></option>
+            <option label="竞赛" value="竞赛"></option>
+            <option label="旅游" value="旅游"></option>
+            <option label="游戏" value="游戏"></option>
+        </select>
+    </div>
+    <div style="margin-top: 20px;text-align: center">
+
+        <table style="font-size: 15px">
+            <textarea id="brief" name="brief" cols="50" rows="10">请输入项目简介...</textarea><br>
+        </table>
+        <button class="button" id="btn" style="vertical-align:middle;margin-left: auto;margin-right: auto"><span>提交</span></button>
+
+    </div>
+</div>
+<script src="js/axios-0.18.0.js"></script>
+<script>
+    var loc=location.href;
+    var n1=loc.length;//地址的总长度
+    var n2=loc.indexOf("?");//取得?号的位置
+    var username=decodeURI(loc.substr(n2+1, n1-n2));
+
+    document.getElementById("btn").onclick = function () {
+        let wantedHead = document.getElementById("wantedHead").value;
+        let personAll = document.getElementById("personAll").value;
+        let school = document.getElementById("school").value;
+        let institute = document.getElementById("institute").value;
+        let brief = document.getElementById("brief").value;
+        let type = document.getElementById("type").value;
+        let inform={
+            "wantedHead":wantedHead,
+            "personCur":1,
+            "personAll":personAll,
+            "school":school,
+            "institute":institute,
+            "type":type,
+            "brief":brief
+        };
+        axios.post("http://localhost/inform",inform)
+            .then(res => {
+                if (res.data === "success") {
+                    window.location.href = "http://localhost/main.html?"+username;
+                } else {
+                    alert("错误");
+                }
+            });
+    }
+    function jump_back_(){
+        window.location.href = "http://localhost/main.html?"+username;
+    }
+</script>
+</body>
+</html>

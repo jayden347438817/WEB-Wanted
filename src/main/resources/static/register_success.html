@@ -1,0 +1,123 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>wanted注册成功界面</title>
+    <!--    引入格式文件-->
+</head>
+
+<style>
+    h1{
+        font-family:"Comic Sans MS", cursive, sans-serif;
+        background-color: rgba(255,255,255,0.35);
+        text-shadow: 5px 5px 5px #FFD026;
+        color: #EEEEEE;
+    }
+    *{
+        margin: 0px;/*所有的外边距为0*/
+        padding: 0px;/*所有的内边距为0*/
+        box-sizing: border-box;/*规定两个并排的带边框的框*/
+    }/**/
+    body{
+        background: url("img/wallhaven-pkgkkp.png")no-repeat center;
+        padding-top: 25px;
+    }
+    .rg_layout{ /*盒子模型*/
+        width: 900px;
+        height: 500px;
+        border: 8px solid #EEEEEE;/*边框*/
+        background-color: white;
+        margin: auto; /*浏览器记录外边框*/
+        /*opacity:0.6;设置透明度*/
+        background-color: rgba(255,255,255,0.35);
+        /*filter:alpha(opacity=40);  IE8 及其更早版本 */
+    }
+
+    .button {
+        display: inline-block;
+        border-radius: 6px;
+        background-color: #FFD026;
+        border: none;
+        color: #FFFFFF;
+        text-align: center;
+        font-size: 20px;
+        padding: 20px;
+        width: 250px;
+        transition: all 0.5s;
+        cursor: pointer;
+        margin: 20px 0px;//顶底， 左右
+        /*position: absolute;
+        left: 780px;
+        top: 590px;*/
+    }
+
+    .button span {
+        cursor: pointer;
+        display: inline-block;
+        position: relative;
+        transition: 0.5s;
+    }
+
+    .button span:after {
+        content: '» »';
+        position: absolute;
+        opacity: 0;
+        top: 0;
+        right: -20px;
+        transition: 0.5s;
+    }
+
+    .button:hover span {
+        padding-right: 40px;
+    }
+
+    .button:hover span:after {
+        opacity: 1;
+        right: 0;
+    }
+
+
+
+    img {
+        margin: auto;
+        width: 15%;
+        height: auto;
+    }
+
+    p {
+        font-family:"Comic Sans MS", cursive, sans-serif;
+        text-shadow: 5px 5px 5px #FFD026;
+        color: black;
+        font-size:50px;
+        text-align:center;
+    }
+    a{
+        text-decoration: none;
+        color: white;
+    }
+</style>
+
+
+
+<body>
+<br>
+<br>
+<h1 style="text-align:center;padding-top: 25px;padding-bottom:25px;">Welcome to Wanted !</h1>
+<br>
+<br>
+<br>
+<div class="rg_layout">
+    <div>
+        <!--width="200" height="143"-->
+        <br><br><br>
+        <p><img src="img/tick3.png" ><br/>Login Success !</p>
+        <br><br><br>
+        <div style="text-align: center;"><button class="button" style="vertical-align:middle"><span><a href="login.html">Sign in </a></span></button></div>
+    </div>
+
+
+
+
+</div>
+</body>
+</html>
+

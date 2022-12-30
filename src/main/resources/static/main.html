@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>wanted主页</title>
+    <style>
+        .title_1{
+            font-size: 400%;
+            font-family:Comic Sans MS, cursive, sans-serif;
+            color: #FFD026;
+            text-shadow: 5px 5px 2px #A6A6A6;
+            text-align: center;
+            height: 30%;
+        }
+        .login{
+            width: 100%;
+            overflow: auto;
+        }
+        .main{
+            background-color:gray;
+            border: 6px solid white;
+            border-radius: 4px;
+            background-color: rgba(255,255,255,0.4);
+            width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0px;
+        }
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #555555;
+            top: 0;
+            width: 100%;
+        }
+
+        .list li {
+            float: left;
+        }
+
+        li a {
+            display: block;
+            color: black;
+            text-align: center;
+            padding: 14px 25px;
+            text-decoration: none;
+        }
+
+        li a:hover{
+            background-color: gray;
+            color: black;
+        }
+        .active{
+            background-color: #FFD026;
+        }
+        .frame{
+            height: 600px;
+            width:100%;
+            padding:0;
+            margin:0;
+            border: none;
+        }
+    </style>
+</head>
+<body background="main.jpg">
+<div class="login">
+    <h1 class="title_1">wanted</h1>
+    <p style="float: right;font-size: 100%;margin-right: 5%">
+        欢迎，
+        <a href="#" onclick="jump()" id="username" style="text-decoration: none">用户名</a>
+    </p>
+</div>
+<div class="main">
+    <div class="list">
+    <ul>
+    <li  class="active"><a href="wanted_show.html?" target="iframe_a">主页</a></li>
+    <li><a href="wanted_show.html?大创" target="iframe_a">大创</a></li>
+    <li><a href="wanted_show.html?竞赛" target="iframe_a">竞赛</a></li>
+    <li><a href="wanted_show.html?旅游" target="iframe_a">旅游</a></li>
+        <li><a href="wanted_show.html?游戏" target="iframe_a">游戏</a></li>
+    <li style="float: right"><a href="#" onclick="cwanted()" target="_self" class="active">发布wanted</a></li>
+    </ul>
+    </div>
+    <iframe  class="frame" name="iframe_a" src="wanted_show.html?"></iframe>
+</div>
+<script src="js/axios-0.18.0.js" src="data.java"></script>
+<script>
+    var loc=location.href;
+    var n1=loc.length;//地址的总长度
+    var n2=loc.indexOf("?");//取得?号的位置
+    var username=decodeURI(loc.substr(n2+1, n1-n2));
+
+    document.getElementById("username").innerHTML=username;
+    var lis = document.querySelector(".list").querySelectorAll("li");
+    for (var i = 0; i < lis.length; i++) {
+        lis[i].setAttribute("index", i);
+        lis[i].onclick = function () {
+            for (var j = 0; j < lis.length; j++) {
+                lis[j].className = "";
+            }
+            this.className = "active";
+        }
+    }
+    function jump(){
+        window.location.href = "http://localhost/personal_page.html?"+username;
+    }
+    function cwanted(){
+        window.location.href = "http://localhost/create_wanted.html?"+username;
+    }
+</script>
+</body>
+</html>

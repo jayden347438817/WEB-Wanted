@@ -1,0 +1,92 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: Administrator
+  Date: 2022/9/5
+  Time: 12:12
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    /* 通配符选择器，设置外边距和内边距为0 */
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    /* 取消列表前面的圆点 */
+    li {
+        list-style-type: none;
+    }
+
+    /* 设置外部div样式 */
+    .tab {
+        width: 850px;
+        margin: 100px auto;
+    }
+
+    /* 设置菜单栏的样式 */
+    .tab_list {
+        height: 39px;
+        border: 1px solid #ccc;
+        background-color: #f1f1f1;
+    }
+
+    /* 设置列表的样式 */
+    .tab_list li {
+        float: left;
+        height: 39px;
+        line-height: 39px;
+        padding: 0 40px;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    /* 设置商品介绍的样式 */
+    .current {
+        background-color: #c81623;
+        color: #fff;
+    }
+</style>
+
+<body>
+<div class="tab">
+    <div class="tab_list">
+        <ul>
+            <li class="current"><a>商品介绍</a></li>
+            <li><a>规格与包装</a></li>
+            <li><a>售后保障</a></li>
+            <li><a>商品评价</a></li>
+            <li><a>手机社区</a></li>
+        </ul>
+    </div>
+</div>
+<script>
+    //获取所有的li元素
+    var lis = document.querySelector(".tab_list").querySelectorAll("li");
+    //获取所有的item元素
+    for (var i = 0; i < lis.length; i++) {
+        //给每个li元素添加index属性，第几个index为几
+        lis[i].setAttribute("index", i);
+        //给每个li绑定click事件，点击后出现以下事情
+        lis[i].onclick = function () {
+            //排他思想，将所有的标签样式都去掉
+            for (var j = 0; j < lis.length; j++) {
+                lis[j].className = "";
+            }
+            //样式为空后，设置当前的样式为current
+            this.className = "current";
+        }
+    }
+</script>
+</body>
+
+</html>

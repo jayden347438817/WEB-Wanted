@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <!-- 页面meta -->
+
+    <meta charset="utf-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>基于SpringBoot整合SSM案例</title>
+
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+
+    <!-- 引入样式 -->
+
+    <link rel="stylesheet" href="plugins/elementui/index.css">
+
+    <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body class="hold-transition">
+
+<div id="app">
+
+    <div class="content-header">
+
+        <h1>wanted展示</h1>
+
+    </div>
+
+    <div class="app-container">
+
+        <div class="box">
+
+            <!-- 查询组件-->
+            <div class="filter-container">
+                <el-input placeholder="ID" v-model="pagination.id" style="width: 200px;" class="filter-item"></el-input>
+                <el-input placeholder="Head" v-model="pagination.wantedHead" style="width: 200px;"
+                          class="filter-item"></el-input>
+                <el-input placeholder="发起人" v-model="pagination.leader" style="width: 200px;"
+                          class="filter-item"></el-input>
+                <el-button @click="getAll()" class="dalfBut">查询</el-button>
+                <el-button type="primary" class="butT" @click="handleCreate()">新建</el-button>
+            </div>
+
+            <!-- 表信息展示-->
+            <el-table size="small" current-row-key="id" :data="dataList" stripe highlight-current-row>
+
+                <el-table-column prop="id" label="ID" align="center"></el-table-column>
+
+                <el-table-column prop="wantedHead" label="Head" align="center"></el-table-column>
+
+                <el-table-column prop="leader" label="发起人" align="center"></el-table-column>
+
+                <el-table-column prop="personCur" label="现/总人数" align="center" :formatter="CAFormatter"></el-table-column>
+
+                <el-table-column prop="brief" label="描述" align="center"></el-table-column>
+
+                <el-table-column prop="school" label="学校" align="center"></el-table-column>
+
+                <el-table-column prop="institute" label="学院" align="center"></el-table-column>
+
+                <el-table-column prop="type" label="类型" align="center"></el-table-column>
+
+                <el-table-column prop="member2" label="成员二" align="center"></el-table-column>
+
+                <el-table-column prop="member3" label="成员三" align="center"></el-table-column>
+
+                <el-table-column prop="member4" label="成员四" align="center"></el-table-column>
+
+                <el-table-column prop="member5" label="成员五" align="center"></el-table-column>
+
+                <el-table-column prop="member6" label="成员六" align="center"></el-table-column>
+
+                <el-table-column prop="member7" label="成员七" align="center"></el-table-column>
+
+                <el-table-column prop="member8" label="成员八" align="center"></el-table-column>
+
+                <el-table-column label="操作" align="center">
+
+                    <template slot-scope="scope">
+
+                        <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
+
+                        <el-button type="danger" size="mini" @click="handleDelete(scope.row)">删除</el-button>
+
+                    </template>
+
+                </el-table-column>
+
+            </el-table>
+
+            <!-- 分页组件-->
+            <div class="pagination-container">
+
+                <el-pagination
+                        class="pagiantion"
+
+                        @current-change="handleCurrentChange"
+
+                        :current-page="pagination.currentPage"
+
+                        :page-size="pagination.pageSize"
+
+                        layout="total, prev, pager, next, jumper"
+
+                        :total="pagination.total">
+
+                </el-pagination>
+
+            </div>
+
+            <!-- 新增标签弹层 -->
+
+            <div class="add-form">
+
+                <el-dialog title="新增" :visible.sync="dialogFormVisible">
+
+                    <el-form ref="dataAddForm" :model="formData" :rules="rules" label-position="right"
+                             label-width="100px">
+
+                        <el-row>
+
+                            <el-col :span="6">
+
+                                <el-form-item label="Head" prop="wantedHead">
+
+                                    <el-input v-model="formData.wantedHead"/>
+
+                                </el-form-item>
+
+                            </el-col>
+
+                            <el-col :span="6">
+
+                                <el-form-item label="发起人" prop="leader">
+
+                                    <el-input v-model="formData.leader"/>
+
+                                </el-form-item>
+
+                            </el-col>
+
+                            <el-col :span="6">
+
+                                <el-form-item label="现人数" prop="personCur">
+
+                                    <el-input v-model="formData.personCur"/>
+
+                                </el-form-item>
+
+                            </el-col>
+
+                            <el-col :span="6">
+
+                                <el-form-item label="总人数" prop="personAll">
+
+                                    <el-input v-model="formData.personAll"/>
+
+                                </el-form-item>
+
+                            </el-col>
+
+                        </el-row>
+
+
+                        <el-row>
+
+                            <el-col :span="24">
+
+                                <el-form-item label="描述">
+
+                                    <el-input v-model="formData.brief" type="textarea"></el-input>
+
+                                </el-form-item>
+
+                            </el-col>
+
+                        </el-row>
+
+                        <el-row>
+
+                            <el-col :span="8">
+
+                                <el-form-item label="学校" prop="school">
+
+                                    <el-input v-model="formData.school"/>
+
+                                </el-form-item>
+
+                            </el-col>
+
+                            <el-col :span="8">
+
+                                <el-form-item label="学院" prop="institute">
+
+                                    <el-input v-model="formData.institute"/>
+
+                                </el-form-item>
+
+                            </el-col>
+
+                            <el-col :span="8">
+
+                                <el-form-item label="类型" prop="type">
+
+                                    <el-input v-model="formData.type"/>
+
+                                </el-form-item>
+
+                            </el-col>
+
+                        </el-row>
+
+                        <el-row>
+
+                            <el-col :span="6">
+
+                                <el-form-item label="成员二" prop="member2">
+
+                                    <el-input v-model="formData.member2"/>
+
+                                </el-form-item>
+
+                            </el-col>
+
+                            <el-col :span="6">
+
+                                <el-form-item label="成员三" prop="member3">
+
+                                    <el-input v-model="formData.member3"/>
+
+                                </el-form-item>
+
+                            </el-col>
+
+                            <el-col :span="6">
+
+                                <el-form-item label="成员四" prop="member4">
+
+                                    <el-input v-model="formData.member4"/>
+
+                                </el-form-item>
+
+                            </el-col>
+
+                            <el-col :span="6">
+
+                                <el-form-item label="成员五" prop="member5">
+
+                                    <el-input v-model="formData.member5"/>
+
+                                </el-form-item>
+
+                            </el-col>
+
+                        </el-row>
+
+                        <el-row>
+                            <el-col :span="8">
+
+                                <el-form-item label="成员六" prop="member6">
+
+                                    <el-input v-model="formData.member6"/>
+
+                                </el-form-item>
+
+                            </el-col>
+
+                            <el-col :span="8">
+
+                                <el-form-item label="成员七" prop="member7">
+
+                                    <el-input v-model="formData.member7"/>
+
+                                </el-form-item>
+
+                            </el-col>
+
+                            <el-col :span="8">
+
+                                <el-form-item label="成员八" prop="member8">
+
+                                    <el-input v-model="formData.member8"/>
+
+                                </el-form-item>
+
+                            </el-col>
+
+                        </el-row>
+
+                    </el-form>
+
+                    <div slot="footer" class="dialog-footer">
+
+                        <el-button @click="cancel()">取消</el-button>
+
+                        <el-button type="primary" @click="handleAdd()">确定</el-button>
+
+                    </div>
+
+                </el-dialog>
+
+            </div>
+
+            <!-- 编辑标签弹层 -->
+
+            <div class="add-form">
+
+                <el-dialog title="编辑检查项" :visible.sync="dialogFormVisible4Edit">
+
+                    <el-form ref="dataEditForm" :model="formData" :rules="rules" label-position="right"
+                             label-width="100px">
+
+                        <el-row>
+
+                            <el-col :span="6">
+
+                                <el-form-item label="Head" prop="wantedHead">
+
+                                    <el-input v-model="formData.wantedHead"/>
+
+                                </el-form-item>
+
+                            </el-col>
+
+                            <el-col :span="6">
+
+                                <el-form-item label="发起人" prop="leader">
+
+                                    <el-input v-model="formData.leader"/>
+
+                                </el-form-item>
+
+                            </el-col>
+
+                            <el-col :span="6">
+
+                                <el-form-item label="现人数" prop="personCur">
+
+                                    <el-input v-model="formData.personCur"/>
+
+                                </el-form-item>
+
+                            </el-col>
+
+                            <el-col :span="6">
+
+                                <el-form-item label="总人数" prop="personAll">
+
+                                    <el-input v-model="formData.personAll"/>
+
+                                </el-form-item>
+
+                            </el-col>
+
+                        </el-row>
+
+
+                        <el-row>
+
+                            <el-col :span="24">
+
+                                <el-form-item label="描述">
+
+                                    <el-input v-model="formData.brief" type="textarea"></el-input>
+
+                                </el-form-item>
+
+                            </el-col>
+
+                        </el-row>
+
+                        <el-row>
+
+                            <el-col :span="8">
+
+                                <el-form-item label="学校" prop="school">
+
+                                    <el-input v-model="formData.school"/>
+
+                                </el-form-item>
+
+                            </el-col>
+
+                            <el-col :span="8">
+
+                                <el-form-item label="学院" prop="institute">
+
+                                    <el-input v-model="formData.institute"/>
+
+                                </el-form-item>
+
+                            </el-col>
+
+                            <el-col :span="8">
+
+                                <el-form-item label="类型" prop="type">
+
+                                    <el-input v-model="formData.type"/>
+
+                                </el-form-item>
+
+                            </el-col>
+
+                        </el-row>
+
+                        <el-row>
+
+                            <el-col :span="6">
+
+                                <el-form-item label="成员二" prop="member2">
+
+                                    <el-input v-model="formData.member2"/>
+
+                                </el-form-item>
+
+                            </el-col>
+
+                            <el-col :span="6">
+
+                                <el-form-item label="成员三" prop="member3">
+
+                                    <el-input v-model="formData.member3"/>
+
+                                </el-form-item>
+
+                            </el-col>
+
+                            <el-col :span="6">
+
+                                <el-form-item label="成员四" prop="member4">
+
+                                    <el-input v-model="formData.member4"/>
+
+                                </el-form-item>
+
+                            </el-col>
+
+                            <el-col :span="6">
+
+                                <el-form-item label="成员五" prop="member5">
+
+                                    <el-input v-model="formData.member5"/>
+
+                                </el-form-item>
+
+                            </el-col>
+
+                        </el-row>
+
+                        <el-row>
+                            <el-col :span="8">
+
+                                <el-form-item label="成员六" prop="member6">
+
+                                    <el-input v-model="formData.member6"/>
+
+                                </el-form-item>
+
+                            </el-col>
+
+                            <el-col :span="8">
+
+                                <el-form-item label="成员七" prop="member7">
+
+                                    <el-input v-model="formData.member7"/>
+
+                                </el-form-item>
+
+                            </el-col>
+
+                            <el-col :span="8">
+
+                                <el-form-item label="成员八" prop="member8">
+
+                                    <el-input v-model="formData.member8"/>
+
+                                </el-form-item>
+
+                            </el-col>
+
+                        </el-row>
+
+                    </el-form>
+
+                    <div slot="footer" class="dialog-footer">
+
+                        <el-button @click="cancel()">取消</el-button>
+
+                        <el-button type="primary" @click="handleEdit()">确定</el-button>
+
+                    </div>
+
+                </el-dialog>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+<!-- 引入组件库 -->
+
+<script src="js/vue.js"></script>
+
+<script src="plugins/elementui/index.js"></script>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+
+<script src="js/axios-0.18.0.js"></script>
+
+<script>
+    var loc=location.href;
+    var n1=loc.length;//地址的总长度
+    var n2=loc.indexOf("?");//取得?号的位置
+    var type_=decodeURI(loc.substr(n2+1, n1-n2));
+
+    var vue = new Vue({
+        el: '#app',
+        data: {
+            dataList: [],//当前页要展示的列表数据
+            dialogFormVisible: false,//添加表单是否可见
+            dialogFormVisible4Edit: false,//编辑表单是否可见
+            formData: {},//表单数据
+            rules: {//校验规则
+                type: [{required: true, message: '图书类别为必填项', trigger: 'blur'}],
+                wantedHead: [{required: true, message: 'Head为必填项', trigger: 'blur'}],
+                leader: [{required: true, message: '发起人为必填项', trigger: 'blur'}],
+                personCur: [{required: true, message: '现人数为必填项', trigger: 'blur'}],
+                personAll: [{required: true, message: '总人数为必填项', trigger: 'blur'}],
+                school: [{required: true, message: '学校为必填项', trigger: 'blur'}],
+                institute: [{required: true, message: '学院为必填项', trigger: 'blur'}]
+            },
+            pagination: {//分页相关模型数据
+                currentPage: 1,//当前页码
+                pageSize: 10,//每页显示的记录数
+                total: 0,//总记录数
+                id: "",
+                wantedHead: "",
+                leader: "",
+                type: type_,
+            }
+        },
+
+        //钩子函数，VUE对象初始化完成后自动执行
+        created() {
+            // 调用查询全部数据的方法
+            this.getAll();
+        },
+
+        methods: {
+            //列表
+            // getAll() {
+            //     // 发送异步请求
+            //     axios.get("http://localhost/admin")
+            //         .then(res => {
+            //             // 获取响应数据
+            //             this.dataList = res.data.data;
+            //         })
+            // },
+
+            //分页加条件查询
+            getAll() {
+                // 组织参数，拼接url请求地址，以parameter的形式传递参数
+                let param = "?id=" + this.pagination.id;
+                param += "&wantedHead=" + this.pagination.wantedHead;
+                param += "&leader=" + this.pagination.leader;
+                param += "&type=" + this.pagination.type;
+                // 发送异步请求
+                axios.get("http://localhost/admin/" + this.pagination.currentPage + "/" + this.pagination.pageSize + param)
+                    .then(res => {
+                        // 获取响应数据
+                        this.dataList = res.data.data.records;
+                        this.pagination.total = res.data.data.total;
+                        this.pagination.currentPage = res.data.data.current;
+                        this.pagination.pageSize = res.data.data.size;
+                    })
+            },
+
+            //切换页码
+            handleCurrentChange(currentPage) {
+                this.pagination.currentPage = currentPage;
+                this.getAll();
+            },
+
+            //弹出添加窗口
+            handleCreate() {
+                this.dialogFormVisible = true;
+                this.resetForm();
+            },
+
+            //重置表单
+            resetForm() {
+                this.formData = {};
+            },
+
+            //添加
+            handleAdd() {
+                axios.post("http://localhost/admin", this.formData)
+                    .then(res => {
+                        if (res.data.flag) {
+                            this.dialogFormVisible = false;
+                            this.$message.success(res.data.msg);
+                        } else {
+                            this.$message.error(res.data.msg);
+                        }
+                    }).finally(() => {
+                    this.getAll();
+                })
+            },
+
+            //取消
+            cancel() {
+                this.dialogFormVisible = false;
+                this.dialogFormVisible4Edit = false;
+                this.$message("操作取消");
+            },
+            // 删除
+            handleDelete(row) {
+                this.$confirm("确认删除", "提示", {type: "warning"})
+                    .then(() => {
+                        axios.delete("http://localhost/admin/" + row.id)
+                            .then(res => {
+                                if (res.data.flag) {
+                                    this.$message.success("删除成功");
+                                } else {
+                                    this.$message.error("数据同步失败，自动刷新");
+                                }
+                            }).finally(() => {
+                            this.getAll();
+                        })
+                    }).catch(() => {
+                    this.$message("操作取消");
+                })
+            },
+
+            //弹出编辑窗口
+            handleUpdate(row) {
+                axios.get("http://localhost/admin/" + row.id)
+                    .then(res => {
+                        if (res.data.flag && res.data.data !== null) {
+                            this.formData = res.data.data;
+                            this.dialogFormVisible4Edit = true;
+                        } else {
+                            this.$message.error("数据同步失败，自动刷新");
+                            this.getAll();
+                        }
+                    })
+            },
+
+            //修改
+            handleEdit() {
+                axios.put("http://localhost/admin", this.formData)
+                    .then(res => {
+                        if (res.data.flag) {
+                            this.dialogFormVisible4Edit = false;
+                            this.$message.success("修改成功");
+                        } else {
+                            this.$message.error("修改失败");
+                        }
+                    }).finally(() => {
+                    this.getAll();
+                })
+            },
+
+            // CAFormatter
+            CAFormatter(row, column, value) {
+                return row.personCur + "/" + row.personAll;
+            }
+
+        }
+    })
+
+</script>
+
+</html>

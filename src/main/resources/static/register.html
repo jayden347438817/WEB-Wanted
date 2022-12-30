@@ -1,0 +1,305 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>wanted注册页面</title>
+  <!--    引入格式文件-->
+</head>
+
+<style>
+  h1{
+    font-family:"Comic Sans MS", cursive, sans-serif;
+    background-color: rgba(255,255,255,0.35);
+    text-shadow: 5px 5px 5px #FFD026;
+    color: #EEEEEE;
+  }
+  *{
+    margin: 0px;/*所有的外边距为0*/
+    padding: 0px;/*所有的内边距为0*/
+    box-sizing: border-box;/*规定两个并排的带边框的框*/
+  }/**/
+  body{
+    background: url("https://w.wallhaven.cc/full/pk/wallhaven-pkgkkp.png")no-repeat center;
+    padding-top: 25px;
+  }
+  .rg_layout{ /*盒子模型*/
+    width: 900px;
+    height: 500px;
+    border: 8px solid #EEEEEE;/*边框*/
+    background-color: white;
+    margin: auto; /*浏览器记录外边框*/
+    /*opacity:0.6;设置透明度*/
+    background-color: rgba(255,255,255,0.35);
+    /*filter:alpha(opacity=40);  IE8 及其更早版本 */
+  }
+  .rg_left{
+    float: left;
+    margin: 15px;
+  }
+  .rg_left>p:first-child{
+    color: #FFD026;
+    font-size: 20px;
+  }
+  .rg_left>p:last-child{
+    color: #A6A6A6;
+    font-size: 20px;
+  }
+
+  .rg_center{
+    float: left;
+  }
+
+  .rg_right{
+    float: right;
+    margin: 15px;
+    padding-left: 50px;
+  }
+  .rg_right p{
+    font-size: 15px;
+  }
+  .rg_right p a{
+    color: coral;
+  }
+  .td_left{
+    width: 110px;
+    text-align: right;
+    height: 45px;
+  }
+  .td_right{
+    padding-left: 50px;
+  }
+  #username,#password,#email,#name,#tel,#checkcode,#surpassword{
+    width: 251px;
+    height: 32px;
+    border: 2px solid #A6A6A6;
+    /*设置边框圆角*/
+    border-radius: 5px;
+    padding-left: 10px;
+  }
+  #checkcode{
+    width: 170px;
+  }
+  #img_check{
+    height: 32px;
+    vertical-align: middle;/*设置图片的位置垂直居中*/
+  }
+  #btn_sub{
+    width: 100px;
+    height: 40px;
+    background-color: #FFD026;
+    border: 1px solid #FFD026;
+    padding-left: 10px;
+
+  }
+
+  .button {
+    display: inline-block;
+    border-radius: 6px;
+    background-color: #FFD026;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 20px;
+    padding: 10px;
+    width: 250px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 30px 0px;//顶底， 左右
+    /*position: absolute;
+    left: 780px;
+    top: 590px;*/
+  }
+
+  .button span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+  }
+
+  .button span:after {
+    content: '》》';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+  }
+
+  .button:hover span {
+    padding-right: 55px;
+  }
+
+  .button:hover span:after {
+    opacity: 1;
+    right: 0;
+  }
+
+
+</style>
+
+
+<body>
+<br>
+<br>
+<h1 style="text-align:center;">Welcome to Wanted !</h1>
+<br>
+<br>
+<br>
+<br>
+
+<div class="rg_layout">
+  <div class="rg_left">
+    <p>Wanted新用户注册</p>
+    <p>USER REGISTER</p>
+  </div>
+  <div class="rg_center">
+    <div class="rg_form">
+        <table>
+          <tr><br><br><br><br></tr>
+          <tr><!--label 标签的作用是当点击文字也会跳到文本输出框-->
+            <!--for属性与ID属性对应规定 label 绑定到哪个表单元素。-->
+            <td class="td_left"><label for="username">用户名</label> </td>
+            <td class="td_right"><input type="text" name="username" id="username" onblur="isDif()"></td>
+          </tr>
+          <tr><td colspan="2" id="pwd0Span"  style="color: red;font-family: 楷体;padding-left: 38%"></td></tr>
+          <tr>
+            <td class="td_left"><label for="password">输入密码</label> </td>
+            <td class="td_right"><input type="password" name="password" id="password" onblur="isPwd()"> <br/>
+          </tr>
+          <tr><td colspan="2" id="pwd1Span"  style="color: red;font-family: 楷体;padding-left: 38%"></td></tr>
+          <tr>
+            <td class="td_left"><label for="surpassword">确认密码</label> </td>
+            <td class="td_right"><input type="password" name="surpassword" id="surpassword" onblur="isCom()"> <br/> </td>
+          </tr>
+          <tr><td colspan="2" id="pwd2Span"  style="color: red;font-family: 楷体;padding-left: 38%"></td></tr>
+          <tr><!--label 标签的作用是当点击文字也会跳到文本输出框-->
+            <td class="td_left"><label for="email">Email</label> </td>
+            <td class="td_right"><input type="email" name="email" id="email"> </td>
+          </tr>
+          <!--
+          <tr>
+              <td class="td_left"><label for="name">姓名</label> </td>
+              <td class="td_right"><input type="text" name="name" id="name"> </td>
+          </tr>
+          -->
+          <tr>
+            <td class="td_left"><label for="tel">手机号</label> </td>
+            <td class="td_right"><input type="text" name="tel" id="tel">  </td>
+          </tr>
+
+
+<!--          <tr>
+            <td class="td_left"><label for="checkcode">验证码</label> </td>
+            <td class="td_right">
+              <input type="text" name="username" id="checkcode">
+              <input type="button" value="发送验证码">
+              &lt;!&ndash;                            <img src="images/verify_code.jpg" id="img_check">&ndash;&gt;
+            </td>
+          </tr>-->
+          <tr>
+            <td colspan="1">
+            <td>
+              <button class="button" style="vertical-align:middle" id="btn"><span>注册 </span></button>
+
+            </td>
+            <!--
+
+                <input type="submit" value="注册" id="btn_sub">
+            </td>-->
+          </tr>
+
+        </table>
+    </div>
+  </div>
+  <div class="rg_right" style="padding-top: 50% ">
+    <p>已有账号？<a href="login.html">立即登录</a></p>
+  </div>
+</div>
+<script src="js/axios-0.18.0.js"></script>
+<script>
+  var differUsername=false;
+  var rulePassword=false;
+  var correctPassword=false;
+  document.getElementById("btn").onclick=function () {
+    if(rulePassword===true&&correctPassword===true&&differUsername===true){
+      // 通过id获取对象
+      let username = document.getElementById("username").value;
+      let password = document.getElementById("password").value;
+      let email = document.getElementById("email").value;
+      let tel = document.getElementById("tel").value;
+      let user = {
+        "username":username,
+        "password":password,
+        "email":email,
+        "phone":tel
+      }
+      // 测试使用，验证是否接收;
+      // console.log("" + username + password + email + tel);
+
+      axios.post("http://localhost/users/",user)
+              .then(res =>{
+                if (res.data === "success") {
+                  window.location.href = "login.html";
+                } else {
+                  alert("注册失败");
+                }
+              });
+
+    }
+
+  }
+
+  //用户名验证
+  function  isDif(){
+    let username = document.getElementById("username").value;
+    axios.get("http://localhost/users/"+username)
+            .then(res=>{
+              if(res.data==="success"){
+               document.getElementById("pwd0Span").innerHTML = "";
+                differUsername=true;
+              }else{
+                document.getElementById("pwd0Span").innerHTML = "用户名已存在";
+              }
+            })
+  }
+    //密码校验
+    function isPwd(){
+      var text= document.getElementById("password").value;
+      var re =/^(?=.*[a-z])(?=.*\d)[^]{8,16}$/;
+      var result =  re.test(text);
+      if(!result) {
+        document.getElementById("pwd1Span").innerHTML = "密码必包含数字,字母,且不少于8位";
+
+        return false;
+      }else {
+        document.getElementById("pwd1Span").innerHTML = "";
+        rulePassword = true;
+        return true;
+      }
+    }
+    //确认密码
+    function isCom(){
+      var text1= document.getElementById("password").value;
+      var text2= document.getElementById("surpassword").value;
+      if (text2 == text1){
+        document.getElementById("pwd2Span").innerText = "";
+        correctPassword = true;
+        return true;
+      }else {
+        document.getElementById("pwd2Span").innerText = "两次输入的密码不一致";
+        return false;
+      }
+    }
+
+    //语句不能为空
+/*    function validateForm(){
+      var x1=document.getElementById("username");
+      if (x1==null || x1==""){
+        alert("用户名必须填写"+x1);
+        return false;
+      }
+    }*/
+</script>
+</body>
+</html>

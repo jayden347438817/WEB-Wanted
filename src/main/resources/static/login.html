@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <style>
+        .title_1 {
+            font-size: 400%;
+            font-family: Comic Sans MS, cursive, sans-serif;
+            color: #FFD026;
+            text-shadow: 5px 5px 2px #A6A6A6;
+        }
+
+        .title_2 {
+            font-size: 200%;
+            font-family: Comic Sans MS, cursive, sans-serif;
+            color: #FFD026;
+            text-shadow: 2px 2px 1px #A6A6A6;
+        }
+
+        div.login {
+            margin-top: 10%;
+            width: 100%;
+            text-align: center;
+        }
+
+        div.margin {
+            position: relative;
+            margin-top: 4%;
+            width: 40%;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+
+        .background {
+            background-color: gray;
+            border: 6px solid white;
+            border-radius: 4px;
+            background-color: rgba(255, 255, 255, 0.4);
+            margin: 0px;
+            padding: 0px;
+        }
+
+        .main {
+            padding-top: 2%;
+            padding-bottom: 2%;
+            overflow: auto;
+        }
+
+        input {
+            background: none;
+            border: none;
+            border-bottom: 1px solid black;
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;;
+        }
+
+        ul li {
+            float: left;
+            margin-left: auto;
+            margin-left: auto;
+        }
+
+        .button {
+            display: inline-block;
+            border-radius: 4px;
+            background-color: #f4511e;
+            border: none;
+            color: #FFFFFF;
+            text-align: center;
+            font-size: 16px;
+            padding: 10px;
+            width: 160px;
+            transition: all 0.5s;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .button span {
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+            transition: 0.5s;
+        }
+
+        .button span:after {
+            content: '»';
+            position: absolute;
+            opacity: 0;
+            top: 0;
+            right: -20px;
+            transition: 0.5s;
+        }
+
+        .button:hover span {
+            padding-right: 25px;
+        }
+
+        .button:hover span:after {
+            opacity: 1;
+            right: 0;
+        }
+
+        a:link {
+            text-decoration: none;
+        }
+
+        a:hover {
+            background-color: lightslategrey;
+            color: black;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body background="login.png">
+<div class="login">
+    <h1 class="title_1" style="">wanted</h1>
+</div>
+<div class="margin">
+    <div class="background">
+        <div class="main">
+            <h1 class="title_2">登录</h1>
+            <table >
+                账号: <input id="username" type="text" name="username">
+                <br>
+                <br>
+                密码: <input id="password" type="password" name="password">
+                <br>
+                <br>
+                <button id="btn" class="button" style="vertical-align:middle"><span>登录</span></button>
+            </table>
+            <br>
+            <br>
+            <a href="register.html">注册账号 </a>
+            |
+            <a href="change_password.html"> 找回密码</a>
+            <br>
+        </div>
+    </div>
+</div>
+<script src="js/axios-0.18.0.js" src="data.java"></script>
+<script>
+    // button点击事件
+    document.getElementById("btn").onclick = function () {
+        // 通过id获取对象
+        let username = document.getElementById("username").value;
+        let password = document.getElementById("password").value;
+        axios.get("http://localhost/users/"+username+"/"+password)
+            .then(res =>{
+                if (res.data != "fail") {
+                    window.location.href = "http://localhost/main.html?"+res.data;
+                    localStorage.setItem("wanted_username", username);
+                    localStorage.setItem("wanted_date", new Date().toString());
+                } else {
+                    alert("账号或密码错误");
+                }
+            });
+    }
+
+</script>
+</body>
+</html>
