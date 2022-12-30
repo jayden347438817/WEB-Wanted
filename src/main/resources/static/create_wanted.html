@@ -116,7 +116,10 @@
     </div>
     <div class="data">
         <img id="photo" src="img/w_head.jpg"><br>
-        <button style="padding: 10px;font-size: 20px">上传项目图片</button><br>
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <label for="file">选择图片：</label>
+            <input type="file" name="project_image">
+        </form>
         <table style="font-size: 10px">
             <lable for="wantedHead" style="font-size: 15px">wanted题目：</lable>
             <input type="text" id="wantedHead" name="wantedHead" class="blank"><br>
@@ -129,11 +132,11 @@
             <input type="text" id="institute" name="institute" class="blank"><br>
         </table>
         <select id="type" name="type" style="margin:0;padding: 10px">
-            <option>请选择项目类别</option>
-            <option label="大创" value="大创"></option>
-            <option label="竞赛" value="竞赛"></option>
-            <option label="旅游" value="旅游"></option>
-            <option label="游戏" value="游戏"></option>
+            <option style="color: black;">请选择项目类别</option>
+            <option style="color: black;" label="大创" value="大创"></option>
+            <option style="color: black;" label="竞赛" value="竞赛"></option>
+            <option style="color: black;" label="旅游" value="旅游"></option>
+            <option style="color: black;" label="游戏" value="游戏"></option>
         </select>
     </div>
     <div style="margin-top: 20px;text-align: center">

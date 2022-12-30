@@ -109,9 +109,13 @@
     </div>
     <div class="data">
         <img id="photo" src="img/w_head.jpg"><br>
-        <button style="padding: 10px;font-size: 20px;margin-bottom: 20px">上传图片</button><br>
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <label for="file">选择图片：</label>
+            <input type="file" name="project_image">
+        </form>
 
-            <table style="font-size: 10px;margin-top: 20px">
+
+        <table style="font-size: 10px;margin-top: 20px">
                 <lable for="username" style="font-size: 15px">姓名：</lable>
                 <input type="text" id="username" name="username" class="blank"><br>
                 <lable for="school" style="font-size: 15px">学校：</lable>
